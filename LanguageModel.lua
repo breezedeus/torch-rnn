@@ -87,11 +87,19 @@ function LM:resetStates()
   end
 end
 
+function LM:wjl_encode_string(s)
+    local encoded = torch.LongTensor(#s)
+    for i = 1, #s do
+        encoded[i] = s[i]
+    end
+    return encoded
+end
 
 function LM:encode_string(s)
   local encoded = torch.LongTensor(#s)
   for i = 1, #s do
     local token = s:sub(i, i)
+    print('token: ' .. token)
     local idx = self.token_to_idx[token]
     assert(idx ~= nil, 'Got invalid idx')
     encoded[i] = idx
@@ -126,6 +134,11 @@ Returns:
 function LM:sample(kwargs)
   local T = utils.get_kwarg(kwargs, 'length', 100)
   local start_text = utils.get_kwarg(kwargs, 'start_text', '')
+  print('#start_text: ' .. #start_text)
+  local wjl_start_text = utils.read_json('start_text.json')
+  start_text = wjl_start_text['start_text']
+  --print('start_text: ' .. start_text)
+  print('#start_text: ' .. #start_text)
   local verbose = utils.get_kwarg(kwargs, 'verbose', 0)
   local sample = utils.get_kwarg(kwargs, 'sample', 1)
   local temperature = utils.get_kwarg(kwargs, 'temperature', 1)
@@ -138,7 +151,8 @@ function LM:sample(kwargs)
     if verbose > 0 then
       print('Seeding with: "' .. start_text .. '"')
     end
-    local x = self:encode_string(start_text):view(1, -1)
+    --local x = self:encode_string(start_text):view(1, -1)
+    local x = self:wjl_encode_string(start_text):view(1, -1)
     local T0 = x:size(2)
     sampled[{{}, {1, T0}}]:copy(x)
     scores = self:forward(x)[{{}, {T0, T0}}]
@@ -151,7 +165,7 @@ function LM:sample(kwargs)
     scores = w.new(1, 1, self.vocab_size):fill(1)
     first_t = 1
   end
-  
+
   for t = first_t, T do
     if sample == 0 then
       local _, next_char = scores:max(3)
