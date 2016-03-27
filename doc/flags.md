@@ -49,7 +49,7 @@ The sampling script `sample.lua` accepts the following command-line flags:
 - `-checkpoint`: Path to a `.t7` checkpoint file from `train.lua`
 - `-length`: The length of the generated text, in characters.
 - `-start_text`: You can optionally start off the generation process with a string; if this is provided the start text will be processed by the trained network before we start sampling. Without this flag, the first character is chosen randomly.
-**NOTE**：这个选项已经不起作用了，相应的功能还有，使用方法见脚本[wjl_run.sh](../wjl_run.sh)
+**NOTE**：这个选项已经不起作用了，相应的功能还有，使用方法见脚本[wjl_run.sh](../wjl_run.sh)。
 - `-sample`: Set this to 1 to sample from the next-character distribution at each timestep; set to 0 to instead just pick the argmax at every timestep. Sampling tends to produce more interesting results.
 - `-temperature`: Softmax temperature to use when sampling; default is 1. Higher temperatures give noiser samples. Not used when using argmax sampling (`sample` set to 0).
 - `-gpu`: The ID of the GPU to use (zero-indexed). Default is 0. Set this to -1 to run in CPU-only mode.
