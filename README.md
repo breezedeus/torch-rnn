@@ -1,3 +1,16 @@
+# 本库特别内容
+**NOTE**：如果要使用char-rnn这个功能，建议使用python版的[char-rnn-tensorflow](https://github.com/breezedeus/char-rnn-tensorflow)，
+它有几个好处：
+
+* python写的，易读
+* 使用Tensorflow，迭代会比较快
+* 可能会持续更新
+
+此库完全是为前期测试使用。
+
+## 功能
+增加了python脚本以支持在sample时对`start_text`指定中文。使用示例见文件[wjl_run.sh](wjl_run.sh)。
+
 # torch-rnn
 torch-rnn provides high-performance, reusable RNN and LSTM modules for torch7, and uses these modules for character-level
 language modeling similar to [char-rnn](https://github.com/karpathy/char-rnn).
